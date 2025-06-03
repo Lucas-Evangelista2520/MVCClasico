@@ -286,3 +286,4 @@ D:\VS MVC\MVCClasico\bin\Debug\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.Sy
 D:\VS MVC\MVCClasico\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 D:\VS MVC\MVCClasico\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 D:\VS MVC\MVCClasico\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+D:\VS MVC\MVCClasico\obj\Debug\net8.0\MVCClasico.sourcelink.json
