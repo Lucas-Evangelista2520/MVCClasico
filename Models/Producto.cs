@@ -17,6 +17,8 @@ namespace MVCClasico.Models
         public double talle {  get; set; }
         public String descripcion {  get; set; }
 
-        
+        public String imagen { get; set; } 
+
+
     }
 }
