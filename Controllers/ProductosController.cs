@@ -111,7 +111,7 @@ namespace MVCClasico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto, IFormFile imagenProducto)
         {
             if (id != producto.Id)
             {

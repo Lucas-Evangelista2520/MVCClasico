@@ -39,9 +39,6 @@ _ReSharper*/
 Thumbs.db
 
 
-# Configuración local de desarrollo
-/appsettings.Development.json
-/Properties/launchSettings.json
 
 # Output de build
 **/bin/
