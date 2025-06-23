@@ -13,10 +13,12 @@ namespace MVCClasico.Controllers
     public class ProductosController : Controller
     {
         private readonly EcommerceDatabaseContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductosController(EcommerceDatabaseContext context)
+        public ProductosController(EcommerceDatabaseContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Productos
@@ -54,10 +56,33 @@ namespace MVCClasico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto)
+        public async Task<IActionResult> Create([Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto, IFormFile imagenProducto)
         {
             if (ModelState.IsValid)
             {
+                if (producto.ImagenFile != null && producto.ImagenFile.Length > 0)
+                {
+                    // Carpeta: wwwroot/public
+                    var uploads = Path.Combine(_env.WebRootPath, "public");
+                    if (!Directory.Exists(uploads))
+                        Directory.CreateDirectory(uploads);
+
+                    // Nombre único
+                    var filename = Guid.NewGuid()
+                                   + Path.GetExtension(producto.ImagenFile.FileName);
+
+                    // Ruta absoluta
+                    var filePath = Path.Combine(uploads, filename);
+
+                    // Copiar el stream
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await producto.ImagenFile.CopyToAsync(stream);
+                    }
+
+                    // Guardamos sólo la cadena en la BD
+                    producto.imagen = filename;
+                }
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +111,7 @@ namespace MVCClasico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto, IFormFile imagenProducto)
         {
             if (id != producto.Id)
             {

@@ -16,9 +16,9 @@ namespace MVCClasico.Models
         public double precio { get; set; }
         public double talle {  get; set; }
         public String descripcion {  get; set; }
+        public String imagen { get; set; }
 
-        public String imagen { get; set; } 
-
-
+        [NotMapped]
+        public IFormFile ImagenFile { get; set; }
     }
 }

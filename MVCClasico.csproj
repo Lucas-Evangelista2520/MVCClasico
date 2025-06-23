@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\index.css" />
+    <None Include="wwwroot\public\razonamiento_vector_ejercicio_gestor.png" />
   </ItemGroup>
 
   <ItemGroup>
