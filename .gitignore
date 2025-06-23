@@ -63,3 +63,6 @@ Thumbs.db
 # Archivos temporales del SO
 .DS_Store
 Thumbs.db
+
+
+/wwwroot/lib/
