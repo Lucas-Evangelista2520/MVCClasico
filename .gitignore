@@ -37,3 +37,29 @@ _ReSharper*/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+
+# Configuración local de desarrollo
+/appsettings.Development.json
+/Properties/launchSettings.json
+
+# Output de build
+**/bin/
+**/obj/
+
+# Archivos de usuario de Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Static web assets (ASP.NET Core)
+**/staticwebassets.*
+
+# Logs
+*.log
+
+# Archivos temporales del SO
+.DS_Store
+Thumbs.db
