@@ -1,21 +1,7 @@
 # MVC Clásico - Gestión de Productos
 
 ## Descripción
-Aplicación web MVC para la gestión de productos con funcionalidad de carga de imágenes.
-
-## Problemas Solucionados
-
-### 1. Cadena de Conexión
-- **Problema**: Faltaba la cadena de conexión en `appsettings.json`
-- **Solución**: Agregada la cadena de conexión para SQL Server LocalDB
-
-### 2. Carga de Imágenes
-- **Problema**: El controlador no procesaba correctamente las imágenes
-- **Solución**: Corregido el método `Create` para usar el parámetro `imagenProducto` correctamente
-
-### 3. Visualización de Imágenes
-- **Problema**: La vista Index solo mostraba el nombre del archivo
-- **Solución**: Agregada visualización de imágenes con estilos CSS
+Aplicación web MVC para la gestión de compra y venta de zapatillas.
 
 ## Configuración
 
