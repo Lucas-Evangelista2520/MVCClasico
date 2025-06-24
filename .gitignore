@@ -6,6 +6,3 @@ obj/
 .vs/
 *.user
 *.suo
-
-# Configuración de lanzamiento
-**/Properties/launchSettings.json
