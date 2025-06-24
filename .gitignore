@@ -1,1 +1,11 @@
+# Archivos de compilación
+bin/
+obj/
+
+# Configuración de VS
 .vs/
+*.user
+*.suo
+
+# Configuración de lanzamiento
+**/Properties/launchSettings.json
