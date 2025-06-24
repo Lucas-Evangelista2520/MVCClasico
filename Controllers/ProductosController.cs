@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCClasico.Context;
 using MVCClasico.Models;
@@ -22,139 +22,134 @@ namespace MVCClasico.Controllers
         }
 
         // GET: Productos
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Productos.ToListAsync());
-        }
+        public async Task<IActionResult> Index() =>
+            View(await _context.Productos.ToListAsync());
 
         // GET: Productos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
 
         // GET: Productos/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto, IFormFile imagenProducto)
+        public async Task<IActionResult> Create(Producto producto)
         {
-            if (ModelState.IsValid)
+            // Validación de imagen requerida
+            if (producto.ImagenFile == null || producto.ImagenFile.Length == 0)
+                ModelState.AddModelError(nameof(producto.ImagenFile), "La imagen es obligatoria.");
+
+            if (!ModelState.IsValid) return View(producto);
+
+            // Carpeta de subida
+            var uploadsDir = Path.Combine(_env.WebRootPath, "public");
+            Directory.CreateDirectory(uploadsDir);
+
+            // Nombre único
+            var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(producto.ImagenFile.FileName)}";
+            var path = Path.Combine(uploadsDir, fileName);
+
+            // Guardar archivo
+            await using (var stream = System.IO.File.Create(path))
             {
-                if (producto.ImagenFile != null && producto.ImagenFile.Length > 0)
-                {
-                    // Carpeta: wwwroot/public
-                    var uploads = Path.Combine(_env.WebRootPath, "public");
-                    if (!Directory.Exists(uploads))
-                        Directory.CreateDirectory(uploads);
-
-                    // Nombre único
-                    var filename = Guid.NewGuid()
-                                   + Path.GetExtension(producto.ImagenFile.FileName);
-
-                    // Ruta absoluta
-                    var filePath = Path.Combine(uploads, filename);
-
-                    // Copiar el stream
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await producto.ImagenFile.CopyToAsync(stream);
-                    }
-
-                    // Guardamos sólo la cadena en la BD
-                    producto.imagen = filename;
-                }
-                _context.Add(producto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await producto.ImagenFile.CopyToAsync(stream);
             }
-            return View(producto);
+
+            // Guardar referencia
+            producto.imagen = fileName;
+
+            _context.Add(producto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
+
             return View(producto);
         }
 
         // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto)
+        public async Task<IActionResult> Edit(int id, Producto producto)
         {
-            if (id != producto.Id)
+            if (id != producto.Id) return NotFound();
+
+            var productoBd = await _context.Productos
+                           .AsNoTracking()
+                           .FirstOrDefaultAsync(p => p.Id == id);
+            if (productoBd == null) return NotFound();
+
+            // Si viene una nueva imagen la procesamos
+            if (producto.ImagenFile != null && producto.ImagenFile.Length > 0)
             {
-                return NotFound();
+                var uploadsDir = Path.Combine(_env.WebRootPath, "public");
+                Directory.CreateDirectory(uploadsDir);
+
+                var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(producto.ImagenFile.FileName)}";
+                var path = Path.Combine(uploadsDir, fileName);
+
+                await using (var stream = System.IO.File.Create(path))
+                {
+                    await producto.ImagenFile.CopyToAsync(stream);
+                }
+
+                // (opcional) borrar la imagen anterior
+                if (!string.IsNullOrEmpty(productoBd.imagen))
+                {
+                    var oldPath = Path.Combine(uploadsDir, productoBd.imagen);
+                    if (System.IO.File.Exists(oldPath))
+                        System.IO.File.Delete(oldPath);
+                }
+
+                producto.imagen = fileName;     // nueva imagen
+            }
+            else
+            {
+                producto.imagen = productoBd.imagen; // mantener la existente
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(producto);
+
+            try
             {
-                try
-                {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(producto);
+                await _context.SaveChangesAsync();
             }
-            return View(producto);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Productos.Any(e => e.Id == id))
+                    return NotFound();
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
@@ -166,17 +161,10 @@ namespace MVCClasico.Controllers
         {
             var producto = await _context.Productos.FindAsync(id);
             if (producto != null)
-            {
                 _context.Productos.Remove(producto);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductoExists(int id)
-        {
-            return _context.Productos.Any(e => e.Id == id);
         }
     }
 }

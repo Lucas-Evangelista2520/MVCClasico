@@ -10,9 +10,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <!-- ①  aseguramos multipart/form-data -->
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <input type="hidden" asp-for="Id" />
+            <!-- ②  resto de campos sin cambios -->
             <div class="form-group">
                 <label asp-for="nombre" class="control-label"></label>
                 <input asp-for="nombre" class="form-control" />
@@ -33,14 +36,19 @@
                 <input asp-for="descripcion" class="form-control" />
                 <span asp-validation-for="descripcion" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="imagen" class="control-label"></label>
-                <input type="file" asp-for="imagen" class="form-control" />
+                <label asp-for="ImagenFile" class="control-label">Imagen</label>
+                <input type="file" asp-for="ImagenFile" accept="image/*" class="form-control" />
+                <span asp-validation-for="ImagenFile" class="text-danger"></span>
+
                 <img src="@(Url.Content($"~/public/{Model.imagen}"))"
                      alt="Foto de @Model.nombre"
                      style="max-width:200px; max-height:200px;" />
-                <span asp-validation-for="imagen" class="text-danger"></span>
+
+                <input type="hidden" asp-for="imagen" />
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -53,5 +61,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
