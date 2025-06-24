@@ -1,0 +1,6 @@
+wwwroot\css\index.css
+wwwroot\css\site.css
+wwwroot\favicon.ico
+wwwroot\js\site.js
+wwwroot\js\validation_scripts.js
+wwwroot\public\razonamiento_vector_ejercicio_gestor.png

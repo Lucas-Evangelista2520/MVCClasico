@@ -7,35 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MVCClasico.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
-          crossorigin="anonymous" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <!-- Enlace al archivo CSS externo -->
-    <link rel="stylesheet" href="/css/index.css" />
 </head>
 <body>
-    
-        <!-- Banner superior -->
-        <div class="top-banner">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <div class="d-flex justify-content-center flex-grow-1">
-                    <span>Envío gratis a partir de $ 159.999 | 3 y 6 Cuotas Sin Interés con monto mínimo</span>
-                </div>
-                <div class="top-banner-links d-none d-md-flex">
-                    <a href="#"><i class="fa-solid fa-truck"></i> SEGUÍ TU ENVÍO</a>
-                    <a href="#"><i class="fa-solid fa-store"></i> TIENDAS</a>
-                    <a href="#"><i class="fa-solid fa-rotate-left"></i> DEVOLUCIONES</a>
-                </div>
-            </div>
-        </div>
     <header>
-        <div class="logo-puma">
-            <img src="https://logos-world.net/wp-content/uploads/2020/04/Puma-Logo-700x394.png"
-                 alt="logo-puma" />
-        </div>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lucas</a>
@@ -58,12 +32,6 @@
                 </div>
             </div>
         </nav>
-        <div class="navbar2">
-            <input type="text" placeholder="Buscar" />
-            <i class="fa-solid fa-heart fa-lg" style="color:#ffffff;"></i>
-            <i class="fa-solid fa-cart-shopping fa-lg" style="color:#ffffff;"></i>
-            <i class="fa-solid fa-user fa-lg" style="color:#ffffff;"></i>
-        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -80,11 +48,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
-    <script src="https://kit.fontawesome.com/c7a14b7db2.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-            crossorigin="anonymous"></script>
-    <script src="./js/validation_scripts.js"></script>
 </body>
 </html>
