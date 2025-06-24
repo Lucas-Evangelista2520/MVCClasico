@@ -25,10 +25,6 @@
       "PackagePath": "staticwebassets\\js\\validation_scripts.js"
     },
     {
-      "Id": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\wwwroot\\public\\razonamiento_vector_ejercicio_gestor.png",
-      "PackagePath": "staticwebassets\\public\\razonamiento_vector_ejercicio_gestor.png"
-    },
-    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MVCClasico.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },

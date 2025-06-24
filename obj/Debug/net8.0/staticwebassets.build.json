@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tSm/kgnVFVy9Uf4T77yBYSonyaaPX4aImzB61sbkbUQ=",
+  "Hash": "vKB8wCmdVh5m5QOnmkNQnunylRDHFlfm7yloEx1Z8ig=",
   "Source": "MVCClasico",
   "BasePath": "_content/MVCClasico",
   "Mode": "Default",
@@ -162,27 +162,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\validation_scripts.js"
-    },
-    {
-      "Identity": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\wwwroot\\public\\razonamiento_vector_ejercicio_gestor.png",
-      "SourceId": "MVCClasico",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\wwwroot\\",
-      "BasePath": "_content/MVCClasico",
-      "RelativePath": "public/razonamiento_vector_ejercicio_gestor#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "p0v5e7l3wk",
-      "Integrity": "t3nTFDX4KVfyfntQiTDFNG3Tetn7wnbyaqLMA26wsB4=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\public\\razonamiento_vector_ejercicio_gestor.png"
     }
   ],
   "Endpoints": [
@@ -757,88 +736,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-fmnC+AXYZMUL+Fiuu8qkOaEh+NLQrczi5zipIv2AAYw="
-        }
-      ]
-    },
-    {
-      "Route": "public/razonamiento_vector_ejercicio_gestor.p0v5e7l3wk.png",
-      "AssetFile": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\wwwroot\\public\\razonamiento_vector_ejercicio_gestor.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "175274"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"t3nTFDX4KVfyfntQiTDFNG3Tetn7wnbyaqLMA26wsB4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 23 Jun 2025 23:44:13 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "p0v5e7l3wk"
-        },
-        {
-          "Name": "label",
-          "Value": "public/razonamiento_vector_ejercicio_gestor.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-t3nTFDX4KVfyfntQiTDFNG3Tetn7wnbyaqLMA26wsB4="
-        }
-      ]
-    },
-    {
-      "Route": "public/razonamiento_vector_ejercicio_gestor.png",
-      "AssetFile": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\wwwroot\\public\\razonamiento_vector_ejercicio_gestor.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "175274"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"t3nTFDX4KVfyfntQiTDFNG3Tetn7wnbyaqLMA26wsB4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 23 Jun 2025 23:44:13 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-t3nTFDX4KVfyfntQiTDFNG3Tetn7wnbyaqLMA26wsB4="
         }
       ]
     }
