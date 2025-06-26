@@ -1,35 +1,41 @@
-﻿@model IEnumerable<MVCClasico.Models.Cart>
+﻿@model List<MVCClasico.ViewModels.CartItem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Carrito";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<h2>Carrito</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
+@if (!Model.Any())
+{
+    <p>No hay productos en el carrito.</p>
 }
-    </tbody>
-</table>
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio unitario</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.PrecioUnitario.ToString("C")</td>
+                    <td>@item.Cantidad</td>
+                    <td>@item.Subtotal.ToString("C")</td>
+                    <td>
+                        <a asp-action="Remove" asp-route-id="@item.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

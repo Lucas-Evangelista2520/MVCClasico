@@ -10,75 +10,78 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using MVCClasico.Context;
 using MVCClasico.Models;
+using MVCClasico.ViewModels;
 
 namespace MVCClasico.Controllers
 {
-    [Authorize]
+    
     public class CartsController : Controller
     {
         private readonly EcommerceDatabaseContext _context;
-        public readonly UserManager<ApplicationUser> _userManager;
 
-        public CartsController(EcommerceDatabaseContext context, UserManager<ApplicationUser> userManager)
+        public CartsController(EcommerceDatabaseContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
+        // GET: Carts
         public async Task<IActionResult> Index()
         {
-            var currentuser = await _userManager.GetUserAsync(HttpContext.User);
-
-            var cart = await _context.Carts
-                .Include(x => x.Product)
-                .Where(x => x.UserId == currentuser.Id)
+            var items = await _context.Carts
+                .Include(c => c.Product)
+                .Select(c => new CartItem
+                {
+                    Id = c.Id,
+                    ProductId = c.ProductId,
+                    ProductName = c.Product.nombre,
+                    PrecioUnitario = c.Product.precio,
+                    Cantidad = c.Cantidad,
+                    
+                })
                 .ToListAsync();
 
-            double totalCost = 0;
-
-            foreach (var cartItem in cart)
-            {
-                totalCost += cartItem.Product.precio;
-            }
-
-            ViewBag.TotalCost = totalCost;
-
-            return View(cart);
+            return View(items);
         }
 
-        public async Task<IActionResult> AddToCart(int productId)
+
+        // GET: Carts/Add/5
+        public async Task<IActionResult> Add(int id)
         {
+            var producto = await _context.Productos.FindAsync(id);
+            if (producto == null)
+                return NotFound();
 
-            var currentuser = await _userManager.GetUserAsync(HttpContext.User);
-
-            var product = await _context.Productos.Where(x => x.Id == productId).FirstOrDefaultAsync();
-
-            if (product == null)
+            var itemExistente = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == id);
+            if (itemExistente != null)
             {
-                return BadRequest();
+                itemExistente.Cantidad++;
             }
-
-            var cart = new Cart { ProductId = productId, UserId = currentuser.Id };
-
-            _context.Add(cart);
+            else
+            {
+                var cart = new Cart
+                {
+                    ProductId = id,
+                    Cantidad = 1
+                };
+                _context.Carts.Add(cart);
+            }
 
             await _context.SaveChangesAsync();
-
             return RedirectToAction("Index");
-
         }
 
+        // GET: Carts/Remove/5
         public async Task<IActionResult> Remove(int id)
         {
             var cartItem = await _context.Carts.FindAsync(id);
-            if (cartItem == null)
+            if (cartItem != null)
             {
-                return BadRequest();
+                _context.Carts.Remove(cartItem);
+                await _context.SaveChangesAsync();
             }
-            _context.Carts.Remove(cartItem);
-            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
     }
+
 }
