@@ -31,6 +31,6 @@ namespace MVCClasico.Models
         public string? imagen { get; set; }
 
         [NotMapped]
-        public IFormFile ImagenFile { get; set; }
+        public IFormFile? ImagenFile { get; set; }
     }
 }

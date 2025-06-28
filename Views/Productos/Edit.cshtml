@@ -38,15 +38,16 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="ImagenFile" class="control-label">Imagen</label>
-                <input type="file" asp-for="ImagenFile" accept="image/*" class="form-control" />
+                <label asp-for="ImagenFile" class="control-label">Imagen (opcional)</label>
+                <input asp-for="ImagenFile" class="form-control" accept="image/*" />
                 <span asp-validation-for="ImagenFile" class="text-danger"></span>
-
-                <img src="@(Url.Content($"~/public/{Model.imagen}"))"
-                     alt="Foto de @Model.nombre"
-                     style="max-width:200px; max-height:200px;" />
-
-                <input type="hidden" asp-for="imagen" />
+                @if (Model.imagen != null)
+                {
+                    <div>
+                        <p>Imagen actual:</p>
+                        <img src="~/public/@Model.imagen" alt="Imagen actual" style="max-width: 200px;" />
+                    </div>
+                }
             </div>
 
             <div class="form-group">
