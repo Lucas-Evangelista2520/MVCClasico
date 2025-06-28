@@ -15,9 +15,10 @@ namespace MVCClasico.Controllers
         private readonly EcommerceDatabaseContext _context;
         private readonly IWebHostEnvironment _env;
 
-        public ProductosController(EcommerceDatabaseContext context)
+        public ProductosController(EcommerceDatabaseContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Productos

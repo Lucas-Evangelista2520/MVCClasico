@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\MVCClasico.csproj": {}
+    "C:\\Users\\Lucas\\Desktop\\IT DEVELOPMENT\\ORT\\1_2\\New Technologies Programming\\projects\\MVCClasico\\MVCClasico.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\MVCClasico.csproj": {
+    "C:\\Users\\Lucas\\Desktop\\IT DEVELOPMENT\\ORT\\1_2\\New Technologies Programming\\projects\\MVCClasico\\MVCClasico.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\MVCClasico.csproj",
+        "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\IT DEVELOPMENT\\ORT\\1_2\\New Technologies Programming\\projects\\MVCClasico\\MVCClasico.csproj",
         "projectName": "MVCClasico",
-        "projectPath": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\MVCClasico.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Source\\Repos\\MVCClasico\\obj\\",
+        "projectPath": "C:\\Users\\Lucas\\Desktop\\IT DEVELOPMENT\\ORT\\1_2\\New Technologies Programming\\projects\\MVCClasico\\MVCClasico.csproj",
+        "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lucas\\Desktop\\IT DEVELOPMENT\\ORT\\1_2\\New Technologies Programming\\projects\\MVCClasico\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
