@@ -16,5 +16,7 @@ namespace MVCClasico.Context
         }
 
         public DbSet<Producto> Productos { get; set; }
+
+        public DbSet<Cart> Carts { get; set; }
     }
 }
