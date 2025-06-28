@@ -45,27 +45,22 @@ namespace MVCClasico.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Producto producto)
         {
-            // Validación de imagen requerida
             if (producto.ImagenFile == null || producto.ImagenFile.Length == 0)
                 ModelState.AddModelError(nameof(producto.ImagenFile), "La imagen es obligatoria.");
 
             if (!ModelState.IsValid) return View(producto);
 
-            // Carpeta de subida
             var uploadsDir = Path.Combine(_env.WebRootPath, "public");
             Directory.CreateDirectory(uploadsDir);
 
-            // Nombre único
             var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(producto.ImagenFile.FileName)}";
             var path = Path.Combine(uploadsDir, fileName);
 
-            // Guardar archivo
             await using (var stream = System.IO.File.Create(path))
             {
                 await producto.ImagenFile.CopyToAsync(stream);
             }
 
-            // Guardar referencia
             producto.imagen = fileName;
 
             _context.Add(producto);
@@ -96,7 +91,6 @@ namespace MVCClasico.Controllers
                            .FirstOrDefaultAsync(p => p.Id == id);
             if (productoBd == null) return NotFound();
 
-            // Si viene una nueva imagen la procesamos
             if (producto.ImagenFile != null && producto.ImagenFile.Length > 0)
             {
                 var uploadsDir = Path.Combine(_env.WebRootPath, "public");
@@ -110,7 +104,6 @@ namespace MVCClasico.Controllers
                     await producto.ImagenFile.CopyToAsync(stream);
                 }
 
-                // (opcional) borrar la imagen anterior
                 if (!string.IsNullOrEmpty(productoBd.imagen))
                 {
                     var oldPath = Path.Combine(uploadsDir, productoBd.imagen);
@@ -118,11 +111,11 @@ namespace MVCClasico.Controllers
                         System.IO.File.Delete(oldPath);
                 }
 
-                producto.imagen = fileName;     // nueva imagen
+                producto.imagen = fileName;
             }
             else
             {
-                producto.imagen = productoBd.imagen; // mantener la existente
+                producto.imagen = productoBd.imagen;
             }
 
             if (!ModelState.IsValid) return View(producto);
