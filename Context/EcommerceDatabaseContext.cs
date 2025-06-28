@@ -18,5 +18,21 @@ namespace MVCClasico.Context
         public DbSet<Producto> Productos { get; set; }
 
         public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<CompraFinalizada> ComprasFinalizadas { get; set; }
+
+        public DbSet<DetalleCompra> DetallesCompra { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configuración para CompraFinalizada
+            modelBuilder.Entity<CompraFinalizada>()
+                .HasMany(c => c.DetallesCompra)
+                .WithOne(d => d.CompraFinalizada)
+                .HasForeignKey(d => d.CompraFinalizadaId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

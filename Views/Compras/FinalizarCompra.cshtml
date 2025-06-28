@@ -1,0 +1,117 @@
+@model MVCClasico.Models.CompraViewModel
+
+@{
+    ViewData["Title"] = "Finalizar Compra";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Finalizar Compra</h2>
+
+    <div class="row">
+        <!-- Resumen del Carrito -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Productos a Comprar</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.ItemsCarrito.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ItemsCarrito)
+                                    {
+                                        <tr>
+                                            <td>@item.ProductName</td>
+                                            <td>@item.Cantidad</td>
+                                            <td>$@item.PrecioUnitario.ToString("F2")</td>
+                                            <td>$@item.Subtotal.ToString("F2")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-primary">
+                                        <th colspan="3" class="text-end">Total:</th>
+                                        <th>$@Model.TotalCarrito.ToString("F2")</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            No hay productos en el carrito.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Compra -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Información de Envío y Pago</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="FinalizarCompra" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email *</label>
+                            <input asp-for="Email" type="email" class="form-control" placeholder="tu@email.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Direccion" class="form-label">Dirección *</label>
+                            <textarea asp-for="Direccion" class="form-control" rows="3" placeholder="Calle, número, ciudad"></textarea>
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CodigoPostal" class="form-label">Código Postal *</label>
+                            <input asp-for="CodigoPostal" class="form-control" placeholder="1234" />
+                            <span asp-validation-for="CodigoPostal" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MetodoPago" class="form-label">Método de Pago *</label>
+                            <select asp-for="MetodoPago" class="form-select">
+                                <option value="">Seleccione un método de pago</option>
+                                @foreach (var metodo in Model.MetodosPagoDisponibles)
+                                {
+                                    <option value="@metodo">@metodo</option>
+                                }
+                            </select>
+                            <span asp-validation-for="MetodoPago" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg" @(Model.ItemsCarrito.Any() ? "" : "disabled")>
+                                <i class="fas fa-credit-card me-2"></i>Confirmar Compra
+                            </button>
+                            <a asp-controller="Carts" asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Volver al Carrito
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

@@ -82,6 +82,19 @@ namespace MVCClasico.Controllers
 
             return RedirectToAction("Index");
         }
+
+        // GET: Carts/Clear
+        public async Task<IActionResult> Clear()
+        {
+            var allItems = await _context.Carts.ToListAsync();
+            if (allItems.Any())
+            {
+                _context.Carts.RemoveRange(allItems);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 
 }
