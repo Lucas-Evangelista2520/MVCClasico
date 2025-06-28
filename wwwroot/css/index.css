@@ -311,8 +311,10 @@ header {
 .home-footer {
     background-color: var(--puma-black);
     color: var(--puma-white);
-    padding: 50px 0 20px;
+    padding: 20px 0 20px;
     position: relative;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
 }
 
 .footer-container {

@@ -1,0 +1,27 @@
+﻿/* Centra el contenedor y le da un ancho fijo */
+.login-wrapper {
+    max-width: 360px; /* reduce el ancho total */
+    margin: 7vh auto; /* centra vertical y horizontal (auto-horizontal) */
+    padding: 2rem 2.5rem;
+    border-radius: .5rem;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    background: #fff;
+}
+
+    /* Títulos alineados al centro */
+    .login-wrapper h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    /* Reduce espacios entre controles */
+    .login-wrapper .form-control,
+    .login-wrapper .btn {
+        font-size: 0.95rem;
+        padding: .55rem .9rem;
+    }
+
+    /* Ajusta el botón para ocupar todo el ancho (opcional) */
+    .login-wrapper .btn {
+        width: 100%;
+    }

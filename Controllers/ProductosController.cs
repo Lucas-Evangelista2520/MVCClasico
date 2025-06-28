@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCClasico.Context;
 using MVCClasico.Models;
@@ -13,123 +13,136 @@ namespace MVCClasico.Controllers
     public class ProductosController : Controller
     {
         private readonly EcommerceDatabaseContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductosController(EcommerceDatabaseContext context)
+        public ProductosController(EcommerceDatabaseContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Productos
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Productos.ToListAsync());
-        }
+        public async Task<IActionResult> Index() =>
+            View(await _context.Productos.ToListAsync());
 
         // GET: Productos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
 
         // GET: Productos/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto)
+        public async Task<IActionResult> Create(Producto producto)
         {
-            if (ModelState.IsValid)
+            if (producto.ImagenFile == null || producto.ImagenFile.Length == 0)
+                ModelState.AddModelError(nameof(producto.ImagenFile), "La imagen es obligatoria.");
+
+            if (!ModelState.IsValid) return View(producto);
+
+            var uploadsDir = Path.Combine(_env.WebRootPath, "public");
+            Directory.CreateDirectory(uploadsDir);
+
+            var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(producto.ImagenFile.FileName)}";
+            var path = Path.Combine(uploadsDir, fileName);
+
+            await using (var stream = System.IO.File.Create(path))
             {
-                _context.Add(producto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await producto.ImagenFile.CopyToAsync(stream);
             }
-            return View(producto);
+
+            producto.imagen = fileName;
+
+            _context.Add(producto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
+
             return View(producto);
         }
 
         // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,precio,talle,descripcion,imagen")] Producto producto)
+        public async Task<IActionResult> Edit(int id, Producto producto)
         {
-            if (id != producto.Id)
+            if (id != producto.Id) return NotFound();
+
+            var productoBd = await _context.Productos
+                           .AsNoTracking()
+                           .FirstOrDefaultAsync(p => p.Id == id);
+            if (productoBd == null) return NotFound();
+
+            if (producto.ImagenFile != null && producto.ImagenFile.Length > 0)
             {
-                return NotFound();
+                var uploadsDir = Path.Combine(_env.WebRootPath, "public");
+                Directory.CreateDirectory(uploadsDir);
+
+                var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(producto.ImagenFile.FileName)}";
+                var path = Path.Combine(uploadsDir, fileName);
+
+                await using (var stream = System.IO.File.Create(path))
+                {
+                    await producto.ImagenFile.CopyToAsync(stream);
+                }
+
+                if (!string.IsNullOrEmpty(productoBd.imagen))
+                {
+                    var oldPath = Path.Combine(uploadsDir, productoBd.imagen);
+                    if (System.IO.File.Exists(oldPath))
+                        System.IO.File.Delete(oldPath);
+                }
+
+                producto.imagen = fileName;
+            }
+            else
+            {
+                producto.imagen = productoBd.imagen;
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(producto);
+
+            try
             {
-                try
-                {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(producto);
+                await _context.SaveChangesAsync();
             }
-            return View(producto);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Productos.Any(e => e.Id == id))
+                    return NotFound();
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
@@ -141,17 +154,10 @@ namespace MVCClasico.Controllers
         {
             var producto = await _context.Productos.FindAsync(id);
             if (producto != null)
-            {
                 _context.Productos.Remove(producto);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductoExists(int id)
-        {
-            return _context.Productos.Any(e => e.Id == id);
         }
     }
 }
