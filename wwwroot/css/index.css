@@ -46,16 +46,41 @@ a {
 }
 
 /* Header */
-header {
-    background-color: var(--puma-black);
+/*header {
+    background-color: white;
     display: flex;
     align-items: center;
     padding: 0 20px;
     height: 60px;
     position: sticky;
     top: 0;
+    top: 0;
     z-index: 1000;
+}*/
+
+/*SLIDES BANNER*/
+.full-width-slide {
+    height: 500px; /* o el alto que prefieras */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
+.stylish-button {
+    background: linear-gradient(90deg, #000000, #444444);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+    .stylish-button:hover {
+        background: linear-gradient(90deg, #444444, #000000);
+        transform: scale(1.02);
+    }
+
 
 .logo-puma {
     margin-right: 30px;

@@ -1,6 +1,9 @@
 ﻿@{
     /*ViewData["Title"] = "Home Page";*/
+    var productos = ViewBag.Productos as List<MVCClasico.Models.Producto>;
 }
+    
+
 
 <a href="/Login/Logout" class="btn" style="position: absolute; top: 20px; right: 20px; z-index: 1000; background-color: #343a40; color: #fff; font-size: 0.85rem; padding: 0.3rem 0.8rem; border-radius: 0.2rem;">Cerrar sesión</a>
 
@@ -63,9 +66,8 @@
     </header> *@
 
     <!-- Carrusel Hero -->
-    <div id="heroCarousel"
-         class="carousel slide"
-         data-bs-ride="carousel">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+
         <!-- Indicadores del carrusel -->
         <div class="carousel-indicators">
             <button type="button"
@@ -85,19 +87,17 @@
         </div>
         <!-- Slides -->
         <div class="carousel-inner">
-            <div class="carousel-item active"
-                 style="background-image: url('https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_1100/global/374915/01/sv01/fnd/ARG/fmt/png/Zapatillas-RS-X-Efekt');">
-               
+            <div class="carousel-item active full-width-slide"
+                 style="background-image: url('https://brand.assets.adidas.com/image/upload/f_gif,fl_lossy,q_auto/ar_ss25_running_adizero_evo_banner_lifestyle_22485_d_9148a95a6a.gif');">
             </div>
-            <div class="carousel-item"
-                 style="background-image: url('https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_1100/global/377981/01/sv01/fnd/ARG/fmt/png/Zapatillas-de-running-Velocity-Nitro-3');">
-                
+            <div class="carousel-item full-width-slide"
+                 style="background-image: url('https://ar.puma.com/dw/image/v2/BKTG_PRD/on/demandware.static/-/Library-Sites-Shared/default/dw4cb3c66c/2025/25SS_Ecom_SP_INVERSE_Homepage_Full-Bleed-Hero_Large_Desk_2000x694px_1.jpg?q=80');">
             </div>
-            <div class="carousel-item"
-                 style="background-image: url('https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_1100/global/307695/01/sv01/fnd/ARG/fmt/png/Pelota-de-fútbol-PUMA-FINAL-Pro');">
-               
+            <div class="carousel-item full-width-slide"
+                 style="background-image: url('https://361latinamerica.com/wp-content/uploads/2023/07/361-Website-Banner_01.jpg');">
             </div>
         </div>
+
         <!-- Controles anterior/siguiente -->
         <button class="carousel-control-prev"
                 type="button"
@@ -117,8 +117,56 @@
         </button>
     </div>
 
+    <div class="text-center my-5 px-3">
+        <a href="@Url.Action("Index", "Productos")" class="btn btn-primary btn-lg w-100 stylish-button">
+            Ver lista de productos
+        </a>
+    </div>
+
+    <!-- Carrusel de Lista de productos -->
+
+     @if (productos != null && productos.Any())
+    {
+        <div id="carouselProductos" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < productos.Count; i += 4)
+                {
+                    var grupo = productos.Skip(i).Take(4);
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="row">
+                            @foreach (var producto in grupo)
+                            {
+                                <div class="col-md-3 mb-3">
+                                    <div class="card h-100 text-center card-body d-flex flex-column justify-content-center align-items-center">
+                                        <img src="@Url.Content("~/public/" + producto.imagen)" alt="@producto.nombre" class="producto-imagen" />
+
+                                        <div class="card-body">
+                                            <h6 class="card-title">@producto.nombre</h6>
+                                            <p class="card-text">
+                                                <small>Talle: @producto.talle</small><br />
+                                                <strong>$@producto.precio</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductos" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselProductos" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    }
+
+
+    
     <!-- Bloques de Categorías -->
-    <div class="container py-5">
+   @*  <div class="container py-5">
         <div class="row">
             <div class="col-6 col-md-3 mb-4 text-center">
                 <a href="#"
@@ -154,8 +202,8 @@
             </div>
         </div>
     </div>
-
-    <!-- Sección de Nuevos lanzamientos -->
+ *@
+   @*  <!-- Sección de Nuevos lanzamientos -->
     <div class="container pb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="section-title mb-0">Nuevos lanzamientos</h2>
@@ -306,8 +354,8 @@
                 <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
-    </div>
-
+    </div> *@
+   
     <!-- Footer -->
         <footer class="home-footer">
         <div class="footer-container">
@@ -341,7 +389,7 @@
 
             <!-- Columna ACERCA DE PUMA -->
             <div class="footer-column">
-                <h3>ACERCA DE PUMA</h3>
+                <h3>ACERCA DE ORT-Commerce</h3>
                 <strong>GO WILD</strong>
                 <ul>
                     <li>Compañía</li>
@@ -458,7 +506,7 @@
             <a href="#">Términos y Condiciones</a>
             <a href="#">Política de privacidad</a>
             <a href="#">Configurar cookies</a>
-            <p>©PUMA, 2025. Todos los derechos reservados</p>
+            <p>©ORT-Commerce, 2025. Todos los derechos reservados</p>
         </div>
     </footer>
     

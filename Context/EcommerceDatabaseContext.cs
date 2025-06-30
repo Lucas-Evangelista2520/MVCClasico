@@ -29,7 +29,7 @@ namespace MVCClasico.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuración para CompraFinalizada
+            // configuramos para que cada compra pueda tener varios detalles de compra
             modelBuilder.Entity<CompraFinalizada>()
                 .HasMany(c => c.DetallesCompra)
                 .WithOne(d => d.CompraFinalizada)
