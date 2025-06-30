@@ -18,7 +18,7 @@ namespace MVCClasico.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "El total debe ser mayor a 0")]
         public double PrecioTotal { get; set; }
 
-        // Información del cliente
+        // info del cliente
         [Required(ErrorMessage = "El email es obligatorio")]
         [EmailAddress(ErrorMessage = "El formato del email no es válido")]
         public string Email { get; set; }
@@ -29,11 +29,11 @@ namespace MVCClasico.Models
         [Required(ErrorMessage = "El código postal es obligatorio")]
         public string CodigoPostal { get; set; }
 
-        // Método de pago
+        // metodo de pago
         [Required(ErrorMessage = "El método de pago es obligatorio")]
         public string MetodoPago { get; set; }
 
-        // Relación con los productos comprados
+        // relacion con los productos comprados
         public virtual ICollection<DetalleCompra> DetallesCompra { get; set; } = new List<DetalleCompra>();
     }
 

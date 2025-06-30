@@ -55,7 +55,7 @@ namespace MVCClasico.Controllers
             {
                 try
                 {
-                    // Recalcular el total del carrito en el backend
+                    // calcumos total del carrito con LINQ
                     var itemsCarrito = await _context.Carts
                         .Include(c => c.Product)
                         .ToListAsync();
@@ -75,7 +75,7 @@ namespace MVCClasico.Controllers
                     _context.ComprasFinalizadas.Add(compraFinalizada);
                     await _context.SaveChangesAsync();
 
-                    // Crear los detalles de compra
+                    // creamos los detalles de compra
                     foreach (var item in itemsCarrito)
                     {
                         var detalleCompra = new DetalleCompra
@@ -89,7 +89,7 @@ namespace MVCClasico.Controllers
                         _context.DetallesCompra.Add(detalleCompra);
                     }
 
-                    // Limpiar el carrito
+                    // limpiamos el carrito una vez confirmada la compra
                     _context.Carts.RemoveRange(itemsCarrito);
                     await _context.SaveChangesAsync();
 
@@ -102,7 +102,7 @@ namespace MVCClasico.Controllers
                 }
             }
 
-            // Si hay errores, recargar los items del carrito
+            // si llegara a haber un error, recarga los items del carrito
             var cartItems = await _context.Carts
                 .Include(c => c.Product)
                 .ToListAsync();
