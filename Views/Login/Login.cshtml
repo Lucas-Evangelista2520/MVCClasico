@@ -1,34 +1,37 @@
-﻿@{}
+﻿@model MVCClasico.Models.LoginViewModel
 
 <link rel="stylesheet" href="~/css/login.css" />
 
 <div class="login-wrapper">
     <h1 class="mb-4">Bienvenido</h1>
 
-    <form>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-action="Login" asp-controller="Login" method="post" autocomplete="off">
+        @Html.AntiForgeryToken()
         <div class="mb-3">
-            <label for="email" class="form-label">Correo electrónico</label>
-            <input id="email"
-                   name="email"
+            <label asp-for="Email" class="form-label">Correo electrónico</label>
+            <input asp-for="Email"
                    type="email"
                    class="form-control"
-                   placeholder="ejemplo@dominio.com"
-                   required />
+                   placeholder="ejemplo@dominio.com" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="mb-4">
-            <label for="password" class="form-label">Contraseña</label>
-            <input id="password"
-                   name="password"
+            <label asp-for="Password" class="form-label">Contraseña</label>
+            <input asp-for="Password"
                    type="password"
-                   class="form-control"
-                   required />
+                   class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
-        <a asp-controller="Home"
-           asp-action="Index"
-           class="btn btn-primary btn-lg">
+        <button type="submit" class="btn btn-primary btn-lg">
             Entrar
-        </a>
+        </button>
     </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -23,6 +23,8 @@ namespace MVCClasico.Context
 
         public DbSet<DetalleCompra> DetallesCompra { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
