@@ -11,6 +11,7 @@ namespace WebApplication_MVC_Basico_25C1_12C
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSession();
 
             builder.Services.AddDbContext<EcommerceDatabaseContext>(options => options.UseSqlServer(builder.Configuration["ConnectionString:EcommerceDBConnection"]));
             //
@@ -29,6 +30,7 @@ namespace WebApplication_MVC_Basico_25C1_12C
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 

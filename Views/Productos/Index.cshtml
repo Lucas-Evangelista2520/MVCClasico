@@ -1,17 +1,21 @@
 ﻿@model IEnumerable<MVCClasico.Models.Producto>
 
-
-
 @{
     ViewData["Title"] = "Index";
     Layout = "_Layout";
+    bool isAdmin = Context.Session.GetString("IsAdmin") == "true";
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (isAdmin)
+{
+    <text>
+        <p>
+            <a asp-action="Create">Agregar producto</a>
+        </p>
+    </text>
+}
 <table class="table">
     <thead>
         <tr>
@@ -58,15 +62,18 @@
                 }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    <form asp-controller="Carts" asp-action="Add" asp-route-id="@item.Id" method="get" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-outline-primary">Agregar al carrito</button>
-                    </form>
-
+                @if (isAdmin)
+                {
+                    <text>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a> |
+                    </text>
+                }
+                <a asp-action="Details" asp-route-id="@item.Id">Detalle</a>
+                <form asp-controller="Carts" asp-action="Add" asp-route-id="@item.Id" method="get" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Agregar al carrito</button>
+                </form>
             </td>
-                
         </tr>
 }
     </tbody>
