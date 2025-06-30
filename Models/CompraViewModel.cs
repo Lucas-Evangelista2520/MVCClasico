@@ -11,7 +11,7 @@ namespace MVCClasico.Models
         
         public double TotalCarrito { get; set; }
 
-        // Información del cliente
+        // info del cliente
         [Required(ErrorMessage = "El email es obligatorio")]
         [EmailAddress(ErrorMessage = "El formato del email no es válido")]
         public string Email { get; set; }
@@ -22,11 +22,11 @@ namespace MVCClasico.Models
         [Required(ErrorMessage = "El código postal es obligatorio")]
         public string CodigoPostal { get; set; }
 
-        // Método de pago
+        // metodo de pago
         [Required(ErrorMessage = "El método de pago es obligatorio")]
         public string MetodoPago { get; set; }
 
-        // Opciones de método de pago
+        // opciones de metodo de pago
         public List<string> MetodosPagoDisponibles { get; set; } = new List<string>
         {
             "Efectivo",
