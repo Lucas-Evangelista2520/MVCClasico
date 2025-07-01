@@ -145,7 +145,7 @@ namespace MVCClasico.Controllers
             return View("Historial", compras);
         }
 
-        //GET: Compras/Detalles/5
+        // GET: Compras/Detalles/5
         public async Task<IActionResult> Detalles(int id)
         {
             var compra = await _context.ComprasFinalizadas
@@ -162,8 +162,13 @@ namespace MVCClasico.Controllers
                 .Where(p => productoIds.Contains(p.Id))
                 .ToDictionaryAsync(p => p.Id);
 
-            ViewBag.Productos = productos;
-            return View(compra);
+            var viewModel = new CompraDetalleViewModel
+            {
+                Compra = compra,
+                Productos = productos
+            };
+
+            return View(viewModel);
         }
     }
 }
