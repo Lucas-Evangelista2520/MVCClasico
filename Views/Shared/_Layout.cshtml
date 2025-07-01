@@ -20,6 +20,7 @@
                 </button>
                 @{
                     var userEmail = Context.Session.GetString("UserEmail");
+                    bool isAdmin = Context.Session.GetString("IsAdmin") == "true";
                 }
                 @if (!string.IsNullOrEmpty(userEmail))
                 {
@@ -34,6 +35,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Carts" asp-action="Index">Carrito</a>
                         </li>
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Compras" asp-action="Historial">Historial de pedidos</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 }

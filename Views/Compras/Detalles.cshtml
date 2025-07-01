@@ -1,0 +1,56 @@
+@model MVCClasico.Models.CompraFinalizada
+@{
+    ViewData["Title"] = "Detalles de la Compra";
+    Layout = "_Layout";
+    var productos = ViewBag.Productos as Dictionary<int, MVCClasico.Models.Producto>;
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"><i class="fas fa-receipt me-2"></i>Detalles de la Compra #@Model.Id</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th class="text-center">Producto ID</th>
+                    <th class="text-center">Imagen</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-center">Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in Model.DetallesCompra)
+                {
+                    <tr class="text-center">
+                        <td>@detalle.ProductoId</td>
+                        <td>
+                            @if (productos != null && productos.ContainsKey(detalle.ProductoId) && !string.IsNullOrEmpty(productos[detalle.ProductoId].imagen))
+                            {
+                                <img src="~/public/@productos[detalle.ProductoId].imagen" alt="@productos[detalle.ProductoId].nombre" class="img-thumbnail" style="max-width: 80px;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">Sin imagen</span>
+                            }
+                        </td>
+                        <td>
+                            @if (productos != null && productos.ContainsKey(detalle.ProductoId))
+                            {
+                                @productos[detalle.ProductoId].nombre
+                            }
+                            else
+                            {
+                                <span class="text-danger">Producto eliminado</span>
+                            }
+                        </td>
+                        <td>@detalle.Cantidad</td>
+                        <td>$@detalle.Precio.ToString("F2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-end mt-3">
+        <a asp-action="Historial" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver al Historial</a>
+    </div>
+</div> 

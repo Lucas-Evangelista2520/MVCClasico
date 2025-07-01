@@ -1,0 +1,45 @@
+@model IEnumerable<MVCClasico.Models.CompraFinalizada>
+
+@{
+    ViewData["Title"] = "Historial de Pedidos";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"><i class="fas fa-history me-2"></i>Historial de Pedidos</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Dirección</th>
+                    <th class="text-center">Código Postal</th>
+                    <th class="text-center">Método de Pago</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var compra in Model)
+                {
+                    <tr class="text-center">
+                        <td>@compra.Id</td>
+                        <td>@compra.FechaCompra.ToString("g")</td>
+                        <td>@compra.Email</td>
+                        <td>@compra.Direccion</td>
+                        <td>@compra.CodigoPostal</td>
+                        <td>@compra.MetodoPago</td>
+                        <td>$@compra.PrecioTotal.ToString("F2")</td>
+                        <td>
+                            <a asp-action="Detalles" asp-route-id="@compra.Id" class="btn btn-sm btn-outline-info">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

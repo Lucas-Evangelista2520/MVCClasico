@@ -135,5 +135,35 @@ namespace MVCClasico.Controllers
 
             return View(compra);
         }
+
+        // GET: Compras/Historial
+        public async Task<IActionResult> Historial()
+        {
+            var compras = await _context.ComprasFinalizadas
+                .OrderByDescending(c => c.FechaCompra)
+                .ToListAsync();
+            return View("Historial", compras);
+        }
+
+        //GET: Compras/Detalles/5
+        public async Task<IActionResult> Detalles(int id)
+        {
+            var compra = await _context.ComprasFinalizadas
+                .Include(c => c.DetallesCompra)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (compra == null)
+            {
+                return NotFound();
+            }
+
+            var productoIds = compra.DetallesCompra.Select(d => d.ProductoId).ToList();
+            var productos = await _context.Productos
+                .Where(p => productoIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id);
+
+            ViewBag.Productos = productos;
+            return View(compra);
+        }
     }
-} 
+}
